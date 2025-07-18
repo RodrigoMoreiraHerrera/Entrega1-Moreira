@@ -1,0 +1,61 @@
+{{#if user}}
+<div class="flex justify-end space-x-4 mt-4"></div>
+<a href="/" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+    Cerrar Sesión
+  </a>
+  <a href="/current" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+    Perfil
+  </a>
+</div>
+{{else}}
+<div class="flex justify-end space-x-4 mt-4">
+  <a href="/login" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+    Iniciar Sesión
+  </a>
+  <a href="/register" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+    Registrarse
+  </a>
+</div>
+{{/if}}
+{{#if products}}
+  <h2 class="text-2xl font-bold mb-4 text-center">Lista de Productos</h2>
+{{else}}
+  <h2 class="text-2xl font-bold mb-4 text-center">No hay productos disponibles</h2>
+{{/if}}
+
+<br>
+<div class="flex flex-wrap justify-center gap-8">
+  {{#each products}}
+    <div class="product col-span-1">
+      <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+        <img
+          class="w-full h-48 object-cover"
+          src="{{this.thumbnails}}"
+          alt="Imagen de ejemplo"
+        />
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">{{this.title}}</div>
+          <p class="text-gray-700 text-base">{{this.description}}</p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            ${{this.price}}
+          </span>
+          <a class="add-to-cart-btn inline-block bg-yellow-500 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+            Agregar al Carrito
+          </a>
+          <a href="/product/{{this._id}}" class="detail-btn inline-block bg-yellow-500 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+            Ver
+          </a>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
+<div class="flex justify-center mt-4">
+  <a href="{{realtimeUrl}}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+    Administrar
+  </a>
+</div>
+  
+
