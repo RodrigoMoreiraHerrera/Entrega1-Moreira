@@ -25,7 +25,7 @@ export async function createUser(req, res)  {
 
     res
       .status(201)
-      .redirect("/");
+      .redirect("/login");
   } catch (error) {
     return res
       .status(500)
