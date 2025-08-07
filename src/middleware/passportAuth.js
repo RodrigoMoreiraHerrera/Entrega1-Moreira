@@ -6,7 +6,7 @@ export const passportCall = (strategy, { required = true } = {}) => {
       if (err) return next(err);
       if (!user && required) {
         return res.status(401).json({
-          error: info?.messages ? info.messages : info?.toString() || "No autorizado"
+          error: info?.messages ? info.messages : info?.toString() || "No autorizado - passportCall"
         });
       }
       req.user = user || undefined;

@@ -27,7 +27,7 @@ import dotenv from 'dotenv';
 
 
 import mongoose from "mongoose";
-import { productModel } from "./src/models/product.model.js";
+import { productModel } from "./src/mongoDAO/models/product.model.js";
 
 dotenv.config();
 
@@ -36,7 +36,7 @@ const PORT = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.resolve(__dirname, "../public")));
+app.use(express.static(path.resolve(__dirname, "./public")));
 app.use(cookieParser(process.env.JWT_SECRET));
 
 
@@ -63,6 +63,8 @@ app.use("/", viewsRoutes);
 app.use("/api/products", productsRoute);
 app.use("/api/carts", cartsRoute);
 app.use("/api/sessions", usersRoute);
+
+
 
 mongoose.connect("mongodb+srv://rodrigomh11:EOyzGoDTZT1hM9zN@cluster0.4k0vr.mongodb.net/Backend1")
 .then(() => {

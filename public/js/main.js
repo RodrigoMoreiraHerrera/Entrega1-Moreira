@@ -1,7 +1,7 @@
 const socket = io();
 const productList = document.getElementById("products");
 const messageDiv = document.getElementById("message");
-
+console.log("main.js cargado correctamente");
 socket.on("init", (products) => {
   productList.innerHTML = "";
   products.forEach((product) => {

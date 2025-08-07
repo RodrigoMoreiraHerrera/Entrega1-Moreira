@@ -1,6 +1,19 @@
+{{#if cartId}}
+<h1 class="text-3xl font-bold mb-4 text-center">id del carrito: {{cartId}}</h1>
+  <div class="flex justify-center mt-4">
+    <a href="/cart/{{cartId}}" class="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+      Ver mi Carrito
+    </a>
+  </div>
+{{else}}
+<h1 class="text-3xl font-bold mb-4 text-center">No hay carrito disponible</h1>
+{{/if}}
+
+
+
 {{#if user}}
 <div class="flex justify-end space-x-4 mt-4"></div>
-<a href="/" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+<a href="/api/sessions/closeSession" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
     Cerrar Sesión
   </a>
   <a href="/current" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
@@ -41,9 +54,11 @@
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
             ${{this.price}}
           </span>
-          <a class="add-to-cart-btn inline-block bg-yellow-500 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
-            Agregar al Carrito
-          </a>
+          <form action="/api/carts/{{../cartId}}/product/{{this._id}}" method="POST" >
+            <button type="submit" class="add-to-cart-btn inline-block bg-yellow-500 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+              Agregar al Carrito
+            </button>
+          </form>
           <a href="/product/{{this._id}}" class="detail-btn inline-block bg-yellow-500 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
             Ver
           </a>

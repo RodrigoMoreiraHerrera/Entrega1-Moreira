@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { productModel } from "../models/product.model.js";
-import { cartModel } from "../models/cart.model.js";
-import { userModel } from "../models/user.model.js";
+import { productModel } from "../mongoDAO/models/product.model.js";
+import { cartModel } from "../mongoDAO/models/cart.model.js";
+import { userModel } from "../mongoDAO/models/user.model.js";
 import { passportCall } from "../middleware/passportAuth.js";
 
 export const viewsRoutes = Router();
@@ -16,9 +16,12 @@ viewsRoutes.get("/", passportCall("jwt", { required: false }), async (req, res) 
   const productsDocs = await productModel.paginate({}, options);
   const products = productsDocs.docs;
 
-  const user = req.user;
+  const user = req.user
+  const userData = user ? await userModel.findById(user.id).lean() : null;
+  const cartId = userData ? userData.cart_id : null;
+  
 
-  res.render("home", { products, realtimeUrl: "/realtimeproducts" , user});
+  res.render("home", { products, realtimeUrl: "/realtimeproducts" , user, cartId: cartId ? cartId.toString() : null });
 });
 
 viewsRoutes.get("/realtimeproducts", (req, res) => {
@@ -57,9 +60,10 @@ viewsRoutes.get("/register", (req, res) => {
 });
 
 viewsRoutes.get("/current", passportCall("jwt"), async (req, res) => {
+  const userToken = req.user
   const user = await userModel.findById(req.user.id).lean();
   if (!user) {
     return res.status(401).send("No autorizado");
   }
-  res.render("profile", { user });
+  res.render("profile", {  user  });
 });
