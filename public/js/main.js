@@ -1,7 +1,7 @@
 const socket = io();
 const productList = document.getElementById("products");
 const messageDiv = document.getElementById("message");
-console.log("main.js cargado correctamente");
+
 socket.on("init", (products) => {
   productList.innerHTML = "";
   products.forEach((product) => {
@@ -93,9 +93,17 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      if (response.status === 403) {
+        messageDiv.textContent = "No tienes permiso para agregar productos";
+        setTimeout(() => {
+          messageDiv.textContent = "";
+        }, 3000);
+        return;
+      }
+
       if (response.ok) {
         form.reset();
-        console.log("Producto agregado correctamente");
+        messageDiv.textContent = "Producto agregado correctamente";
       } else {
         const error = await response.json();
         console.log(

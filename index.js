@@ -13,7 +13,7 @@ import { initSocket } from "./src/utils/socket.js";
 //import { Server } from "socket.io";
 import Handlebars from "express-handlebars";
 
-import { __dirname } from "./src/utils/__dirname.js";
+//import { __dirname } from "./src/utils/__dirname.js";
 
 import { viewsRoutes } from "./src/routes/views.routes.js";
 import { productsRoute } from "./src/routes/products.routes.js";
@@ -27,16 +27,19 @@ import dotenv from 'dotenv';
 
 
 import mongoose from "mongoose";
-import { productModel } from "./src/mongoDAO/models/product.model.js";
+
+import ProductsControllers from "./src/controllers/products.controllers.js";
+import ProductService from "./src/mongoDAO/services/products.service.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = 8080;
+const productsService = new ProductService();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.resolve(__dirname, "./public")));
+app.use(express.static(path.resolve( "public")));
 app.use(cookieParser(process.env.JWT_SECRET));
 
 
@@ -56,7 +59,7 @@ app.engine(
     })
 );
 app.set("view engine", "hbs");
-app.set("views", path.resolve(__dirname, "../views"));
+app.set("views", path.resolve("./src/views"));
 
 
 app.use("/", viewsRoutes);
@@ -81,6 +84,6 @@ export const io = initSocket(server);
 
 io.on("connection", async (socket) => {
     console.log("New connection", socket.id);
-    const products = await productModel.find();
+    const products = await productsService.getAll();
     socket.emit("init", products);
 });
